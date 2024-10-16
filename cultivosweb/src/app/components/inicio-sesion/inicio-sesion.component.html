@@ -1,0 +1,17 @@
+<div class="contentWrapper">
+    <div class="simpleContainer">       
+        <img src="assets/images/logo.png" alt="Logo" class="imgLogoInicio">
+        <h2>Iniciar Sesión</h2> 
+        <form >
+            <label for="email">Email: </label>
+            <input class="loginStyle" type="email" id="email" [(ngModel)]="email" name="email" placeholder="Introduce tu email..." required="">
+            <label for="password">Contraseña: </label>
+            <input class="loginStyle" type="password" id="password" [(ngModel)]="password" name="password" placeholder="Introduce tu contraseña..." required="">
+            <div *ngIf="loginError" style="color: red;">
+                Login incorrecto, por favor intenta nuevamente.
+            </div>
+            <input class="submitButton" type="submit" (click)="login()" value="Iniciar Sesión">
+        </form>
+        <p>¿No estás registrado? <a class="linkStyle" routerLink="registro" routerLinkActive="active" (click)="registro()">Crear una cuenta</a></p>
+    </div>
+</div>

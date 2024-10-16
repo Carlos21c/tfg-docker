@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  app:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: './WebApp'
+    container_name: webapp
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/TFG
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Basetfg
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+    ports:
+      - "8089:8089"
+
+  db:
+    image: postgis/postgis:latest
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Basetfg
+      - POSTGRES_DB=TFG
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  angular-app:
+    build:
+      context: './cultivosweb'
+    container_name: angular-app
+    ports:
+      - '4200:4200'
+    volumes:
+      - ./src:/angular-app/src
+    environment:
+      - STYLE=css
+
+volumes:
+  postgres_data:
+    driver: local

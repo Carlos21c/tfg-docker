@@ -1,0 +1,18 @@
+<header class="mainHeader">
+    <div class="headerContainer">
+        <div class="logoName">
+            <img src="assets/images/logo.png" alt="Logo" class="imgLogo"> 
+            <h3>CVC Analytics</h3>
+        </div>
+
+        <button class="menuToggle" (click)="toggleMenu()">☰</button>
+
+        <nav class="lateralMenu" [ngClass]="{'show': menuVisible}">
+            <a class="linkStyle" (click)="parcelas()">Mis parcelas</a>
+            <a class="linkStyle" (click)="cultivos()">Mis cultivos</a>
+            <a class="linkStyle" (click)="comparador()">Comparador CVC</a>
+            <a class="linkStyle" (click)="perfil()">Mi perfil</a>
+            <a class="linkStyle" (click)="logout()">Cerrar sesión</a>    
+        </nav>
+    </div>
+</header>

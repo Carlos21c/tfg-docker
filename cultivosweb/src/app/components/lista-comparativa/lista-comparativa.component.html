@@ -1,0 +1,30 @@
+<app-header/>
+<div class="parcelasContainer">
+    <h2>Cultivos a comparar: </h2>
+    <form [formGroup]="variacionForm" *ngIf="compCultivo">
+        <label for="variacion" class="labelFilter">Elegir variación diferencial: </label>    
+        <input class="filterYearCultivo" type="number" formControlName="variacion" min="2000" type="number" id="variacion" name="variacion">
+    </form> 
+    <table class="styleTable">
+        <thead>            
+            <tr>
+                <th>Código Sigpac</th>
+                <th>Año</th>
+                <th>CVC</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (cultivo of cultivos; track cultivo.codSigpac) {
+                <tr>
+                    <td>{{ cultivo.codSigpac }}</td>
+                    <td>{{cultivo.year}}</td>
+                    <td>@if (cultivo.datos != null) {<img src="assets/images/check.png" (click)="mostrarDatos(cultivo.codSigpac, cultivo.year)" alt="Check" class="imgTabla"> } @else {<img src="assets/images/noData.png" alt="noData" class="imgTabla">}</td>
+                    <td><a class="botonEnlace" (click)="borrar(cultivo.codSigpac, cultivo.year)">Eliminar</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input class="botonEnlace" (click)="volver()" value="Volver">
+    <input class="botonEnlace" *ngIf="cultivos.length > 0" (click)="comparar()" value="Comparar">
+</div>

@@ -1,0 +1,66 @@
+<app-header/>
+<div class="tableContainer">
+    <h2>Tus cultivos: </h2>
+    <div class="filterFields"> 
+        <form [formGroup]="yearForm">
+            <label for="yearCultivo" class="labelFilter">Año del cultivo(mínimo 2000):</label>    
+            <input class="filterYearCultivo" type="number" formControlName="yearCultivo" min="2000" type="number" id="yearCultivo" name="yearCultivo">
+        </form>    
+        <div class="buttonContainer">
+            <a class="botonEnlace" (click)="getRango()" >Buscar cultivos recientes</a>
+            <a class="botonEnlace" (click)="getByYear()">Buscar cultivos año concreto</a>   
+        </div>    
+        <form [formGroup]="tipoForm">
+            <label for="tipoCultivo" class="labelFilter">Tipo de cultivo:</label>
+            <select class="comparatorInputCultivo" id="tipoCultivo" formControlName="tipoCultivo" name="tipoCultivo" (change)="getTipoCultivo()" required>
+                <option value="defecto">Seleccione un tipo de cultivo</option>
+                <option *ngFor="let tipo of tipos" [value]="tipo">{{tipo}}</option>
+            </select>
+        </form>
+    </div>
+    <div class="buttonContainer">    
+        <a class="botonEnlace" (click)="ngOnInit()">Mostrar todos mis cultivos</a>
+    </div>    
+    <table class="styleTable">
+        <thead>
+            <tr>
+                <th (click)="ordenarSigpac()"><a class="orderList">Código Sigpac</a></th>
+                <th (click)="ordenarYear()"><a class="orderList">Año</a></th>
+                <th>Descripción</th>
+                <th (click)="ordenarTipo()"><a class="orderList">Tipo Cultivo</a></th>
+                <th>Variedad</th>
+                <th (click)="ordenarCVC()"><a class="orderList">CVC</a></th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (cultivo of displayedCultivos; track cultivo.codSigpac) {
+                <tr>
+                    <td><a (click)="thisCultivo(cultivo.codSigpac, cultivo.year)" class="link-like">{{ cultivo.codSigpac }}</a></td>
+                    <td>{{cultivo.year}}</td>
+                    <td>{{cultivo.descripcion}}</td>    
+                    <td>{{cultivo.tipoCultivo | capitalize}}</td>
+                    <td>{{cultivo.variedad | capitalize}}</td>
+                    <td>@if (cultivo.datos != null) {<img src="assets/images/check.png" (click)="mostrarDatos(cultivo.codSigpac, cultivo.year)" alt="Check" class="imgTabla"> } @else {<img src="assets/images/noData.png" alt="noData" class="imgTabla">}</td>
+                    <td>
+                    <div class="buttonContainer">
+                        <a class="botonEnlace" (click)="editCultivo(cultivo.codSigpac, cultivo.year)">Editar</a>
+                        <a class="botonEnlace" (click)="deleteCultivo(cultivo.codSigpac, cultivo.year)">Eliminar</a>
+                        <a class="botonEnlace" (click)="triggerFileInput(cultivo.codSigpac, cultivo.year)">@if(cultivo.datos != null){Editar CVC} @else {Añadir CVC}</a>
+                        <input type="file" id="fileInput" (change)="onFileChange($event)" accept=".xls, .xlsx" style="display: none;"/>
+
+                        @if (cultivo.datos != null){<a class="botonEnlace" (click)="comparator(cultivo.codSigpac, cultivo.year)">Comparar CVC</a>}
+                    </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button (click)="previousPage()" [disabled]="page <= 1">Anterior</button>
+        <span>Página {{page}} de {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="page >= totalPages">Siguiente</button>
+    </div>
+
+    <a class="botonEnlace" (click)="addCultivo()">Añadir cultivo</a>
+</div>

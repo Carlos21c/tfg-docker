@@ -1,0 +1,30 @@
+<app-header/>
+<div class="profileContainer">
+    <h2>Mis datos</h2>
+    <div class="profileCard">
+        <div class="profileItem">
+            <label for="nombre">Nombre:</label> 
+            <span>{{propietario?.nombre}}</span>
+        </div>
+        <div class="profileItem">
+            <label for="dni">DNI:</label> 
+            <span>{{propietario?.dniPropietario}}</span>
+        </div>
+        <div class="profileItem">
+            <label for="email">Email:</label> 
+            <span>{{propietario?.email}}</span>
+        </div>
+        <div class="profileItem">
+            <label for="telefono">Teléfono:</label> 
+            <span>@if (propietario?.telefono === 0){
+
+                }@else {
+                    {{propietario?.telefono}}
+                }</span>
+        </div>
+        <div class="profileActions">
+            <a class="botonEnlace" (click)="editarPerfil()">Editar perfil</a>
+            <a class="botonEnlace" (click)="eliminarPerfil()">Eliminar usuario</a>
+        </div>
+    </div>
+</div>

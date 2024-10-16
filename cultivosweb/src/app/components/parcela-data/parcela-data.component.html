@@ -1,0 +1,33 @@
+<app-header/>
+<div class="tableContainer">
+    <h2>Cultivos de la parcela {{codSigpac}}</h2>
+    <table class="styleTable">
+        <thead>
+            <tr>
+                <th>Código Sigpac</th>
+                <th (click)="ordenarYear()"><a class="orderList">Año</a></th>
+                <th>Descripción</th>
+                <th (click)="ordenarTipo()"><a class="orderList">Tipo Cultivo</a></th>
+                <th>Variedad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (cultivo of cultivos; track cultivo.codSigpac) {
+                <tr>
+                    <td><a (click)="thisCultivo(cultivo.codSigpac, cultivo.year)" class="link-like">{{cultivo.codSigpac}}</a></td>
+                    <td>{{cultivo.year}}</td>
+                    <td>{{cultivo.descripcion}}</td>    
+                    <td>{{cultivo.tipoCultivo | capitalize}}</td>
+                    <td>{{cultivo.variedad}}</td>
+                    <td>
+                        <div class="buttonContainer">
+                            <a class="botonEnlace" (click)="editCultivo(cultivo.codSigpac, cultivo.year)">Editar</a>
+                            <a class="botonEnlace" (click)="deleteCultivo(cultivo.codSigpac, cultivo.year)">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

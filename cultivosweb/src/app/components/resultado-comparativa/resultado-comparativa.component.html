@@ -1,0 +1,59 @@
+<app-header/>
+<div class="csvContainer">
+  <h1>Resultado comparación</h1>
+  <h2>{{ currentPage === 1 ? 'Tabla 1' : 'Tabla 2' }}</h2>
+  <table>
+    <tbody>
+      <tr *ngFor="let row of currentPage === 1 ? csvData1 : csvData2" [ngClass]="{'comparativa-row': row.isComparativa}">
+        <td *ngFor="let header of currentPage === 1 ? csvHeaders1 : csvHeaders2" 
+        [ngStyle]="{'background-color': row[header + '_background'] || 'transparent'}">
+        {{ row[header] }}</td>
+      </tr>
+    </tbody>
+  </table>  
+  <div class="descargaCont">
+    <button (click)="downloadAllCSV()" class="botonEnlace">Descargar la comparación en formato CSV</button>    
+    <button (click)="downloadAvg()" class="botonEnlace" *ngIf="this.medias">Descargar CSV de las medias</button>
+  </div>  
+  <div class="pagination">
+    <button (click)="setPage(1)" class="buttonTable" [class.active]="currentPage === 1">1</button>
+    <button (click)="setPage(2)" class="buttonTable" [class.active]="currentPage === 2">2</button>
+  </div>
+  <div *ngIf="this.medias">
+    <h2>Cultivo elegido para comparar: </h2>
+    <table class="styleTable">
+      <thead>            
+        <tr>
+            <th>Código Sigpac</th>
+            <th>Año</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ this.cultivo.codSigpac }}</td>
+            <td>{{ this.cultivo.year}}</td>
+        </tr>
+    </tbody>
+    </table>
+  </div>   
+  <h2>Lista de cultivos comparados: </h2>
+  <table class="styleTable">
+      <thead>            
+          <tr>
+              <th>Código Sigpac</th>
+              <th>Año</th>
+          </tr>
+      </thead>
+      <tbody>
+        @for (cultivo of cultivos; track cultivo.codSigpac) {
+          <tr>
+              <td>{{ cultivo.codSigpac }}</td>
+              <td>{{cultivo.year}}</td>
+          </tr>
+        }
+      </tbody>
+  </table>
+  <div class="descargaCont">
+    <button (click)="downloadCultCSV()" class="botonEnlace">Exportar en formato CSV</button>    
+  </div>
+</div>

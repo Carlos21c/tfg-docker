@@ -1,0 +1,24 @@
+<app-header/>
+<div class="cultivoContainer">
+    <h2>Cultivo {{codSigpac}} del año {{year}}</h2>
+    <div class="profileCard">
+        <div class="profileItem">
+            <label for="descripcion">Descripción:</label> 
+            <span>{{cultivo.descripcion}}</span>
+        </div>
+        <div class="profileItem">
+            <label for="dni">Tipo del cultivo:</label> 
+            <span>{{cultivo.tipoCultivo}}</span>
+        </div>
+        <div class="profileItem">
+            <label for="email">Variedad del cultivo:</label> 
+            <span>{{cultivo.variedad}}</span>
+        </div>
+        <div *ngIf="cultivo.datos != null">       
+            <div class="profileActions">
+                <a class="botonEnlace" (click)="mostrarDatos(cultivo.codSigpac, cultivo.year)">Ver datos cultivo</a>
+                <a class="botonEnlace" (click)="eliminarDatos(cultivo.codSigpac, cultivo.year)">Eliminar datos del cultivo</a>
+            </div>
+        </div>
+    </div>
+</div>

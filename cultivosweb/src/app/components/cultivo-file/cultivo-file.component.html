@@ -1,0 +1,18 @@
+<app-header/>
+<div class="csvContainer">
+  <h2>{{ currentPage === 1 ? 'Tabla 1' : 'Tabla 2' }}</h2>
+  <table>
+    <tbody>
+      <tr *ngFor="let row of currentPage === 1 ? csvData1 : csvData2">
+        <td *ngFor="let header of currentPage === 1 ? csvHeaders1 : csvHeaders2">{{ row[header] || '' }}</td>
+      </tr>
+    </tbody>
+  </table>  
+  <div class="descargaCont">
+    <button (click)="downloadAllCSV()" class="botonEnlace">Descargar los datos en formato CSV</button>
+  </div>  
+  <div class="pagination">
+    <button (click)="setPage(1)" class="buttonTable" [class.active]="currentPage === 1">1</button>
+    <button (click)="setPage(2)" class="buttonTable" [class.active]="currentPage === 2">2</button>
+  </div>
+</div>

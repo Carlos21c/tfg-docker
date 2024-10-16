@@ -1,0 +1,49 @@
+<div class="contentWrapper">
+    <div class="simpleBigContainer">
+        <h2>Datos para registro</h2>
+        <form [formGroup]="form">
+            <label for="nombre">Nombre propietario: </label>
+            <input class="inputStyle" type="text" id="nombre" formControlName="nombre" name="nombre" placeholder="Nombre" required>
+            <div *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('required')" class="invalid-feedback">
+                El nombre es obligatorio
+            </div>
+            <label for="apellidos">Apellidos: </label>
+            <input class="inputStyle" type="text" id="apellidos" formControlName="apellidos" name="apellidos" placeholder="Apellidos" required>
+            <label for="email">Email: </label>
+            <input class="inputStyle" type="email" id="email" formControlName="email" name="email" placeholder="Email" required>
+            <div *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')" class="invalid-feedback">
+                El email es obligatorio
+            </div>
+            <div *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')" class="invalid-feedback">
+                El email es inválido
+            </div>
+            <label for="telefono">Teléfono: </label>
+            <input class="inputStyle" type="tel" id="telefono" formControlName="telefono" name="telefono" placeholder="Teléfono de contacto" required>           
+            <div *ngIf="form.get('telefono')?.touched && form.get('telefono')?.errors?.['pattern']" class="invalid-feedback">
+                El teléfono debe ser un entero de 9 cifras
+            </div>
+            <label for="dniPropietario">DNI: </label>
+            <input class="inputStyle" type="text" id="dniPropietario" formControlName="dniPropietario" name="dniPropietario" placeholder="DNI completo" required>
+            <div *ngIf="form.get('dniPropietario')?.touched && form.get('dniPropietario')?.hasError('required')" class="invalid-feedback">
+                El dni es obligatorio
+            </div>
+            <div *ngIf="form.get('dniPropietario')?.errors?.['pattern']" class="invalid-feedback">
+                El dni debe ser un entero de 8 cifras seguido de una letra mayúscula
+            </div>
+            <label for="password">Contraseña: </label>
+            <input class="inputStyle" type="password" formControlName="password" id="password" name="password" placeholder="Contraseña" required>
+            <div *ngIf="form.get('password')?.touched && form.get('password')?.touched && form.get('password')?.hasError('required')" class="invalid-feedback">
+                La contraseña es obligatoria
+            </div>            
+            <div *ngIf="form.get('password')?.errors?.['pattern']" class="invalid-feedback">
+                La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una minúscula y un número.
+            </div>
+            <label for="confirmPass">Repetir contraseña: </label>
+            <input class="inputStyle" type="password" formControlName="confirmPass" id="confirmPass" name="confirmPass" placeholder="Repetir contraseña" required>
+            <div *ngIf="form.get('confirmPass')?.touched && form.get('confirmPass')?.dirty && form.hasError('passwordMismatch')" class="invalid-feedback">
+                Las contraseñas no coinciden
+            </div>
+            <input class="submitButton" type="submit" [value]="isEditMode ? 'Actualizar perfil' : 'Registro'"  (click)="create()">
+        </form>
+    </div> 
+</div>

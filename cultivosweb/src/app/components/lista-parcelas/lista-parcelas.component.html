@@ -1,0 +1,35 @@
+<app-header/>
+<div class="parcelasContainer">    
+    <h2>Mis parcelas: </h2>
+    <table class="styleTable">
+        <thead>            
+            <tr>
+                <th (click)="ordenarSigpac()"><a class="orderList">Código Sigpac</a></th>
+                <th>Descripción de la parcela</th>
+                <th (click)="ordenarRegadio()"><a class="orderList">¿Es regadío?</a></th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (parcela of displayedParcelas; track parcela.codSigpac) {
+                <tr>
+                    <td><a (click)="thisParcela(parcela.codSigpac)" class="link-like">{{ parcela.codSigpac }}</a></td>
+                    <td>{{parcela.descripcion}}</td>
+                    <td>{{ parcela.esRegadio ? 'Sí' : 'No' }}</td>
+                    <td>   
+                        <div class="buttonContainer">
+                            <input class="botonEnlace" type="submit" (click)="editParcela(parcela.codSigpac)" value="Editar">
+                            <input class="botonEnlace" type="submit" (click)="eliminarParcela(parcela.codSigpac)" value="Eliminar">
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button (click)="previousPage()" [disabled]="page <= 1">Anterior</button>
+        <span>Página {{page}} de {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="page >= totalPages">Siguiente</button>
+    </div>
+    <a class="botonEnlace" (click)="addParcela()">Añadir parcela</a>
+</div>

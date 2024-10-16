@@ -1,0 +1,56 @@
+<app-header/>
+<div class="contentWrapper">
+    <div class="simpleContainer">
+        <h2>Datos de la parcela:</h2>
+        <form [formGroup]="form">
+            <label for="codSigpac">Código Sigpac: </label>
+            <input class="inputStyle" type="text" id="codSigpac" formControlName="codSigpac" name="codSigpac" placeholder="Código Sigpac de la parcela" required>
+            <div *ngIf="form.get('codSigpac')?.touched && form.get('codSigpac')?.hasError('required')"  class="invalid-feedback">
+                El código sigpac es obligatorio
+            </div>
+            <label for="refCatastral">Referencia catastral: </label>
+            <input class="inputStyle" type="text" id="refCatastral" formControlName="refCatastral" name="refCatastral" placeholder="Referencia catastral de la parcela" required>
+            <div *ngIf="form.get('refCatastral')?.touched && form.get('refCatastral')?.hasError('required')" class="invalid-feedback">
+                La referencia catastral es obligatoria
+            </div>
+            <label for="extension">Extensión: </label>
+            <input class="inputStyle" type="number" min="1" id="extension" formControlName="extension" name="extension" placeholder="Extensión de la parcela (en m^2)" required>
+            <div *ngIf="form.get('extension')?.touched && form.get('extension')?.value === 0" class="invalid-feedback">
+                La extensión de la parcela es obligatoria
+            </div>
+            <label for="descripcion">Descripción: </label>
+            <input class="inputStyle" type="text" id="descripcion" formControlName="descripcion" name="descripcion" placeholder="Descripción de la parcela" required>            
+            <div *ngIf="form.get('descripcion')?.touched && form.get('descripcion')?.hasError('required')" class="invalid-feedback">
+                La descripción de la parcela es obligatoria
+            </div>
+            <label for="provincia">Provincia: </label>
+            <select class="inputStyle" id="provincia" formControlName="provincia" name="provincia" (change)="obtenerPoblaciones()">
+                <option value="defecto">Seleccione una provincia</option>
+                <option *ngFor="let provincia of provincias" [value]="provincia">{{provincia}}</option>
+            </select>
+            <div *ngIf="form.get('provincia')?.touched && form.get('provincia')?.hasError('required') || form.get('provincia')?.value === 'defecto'" class="invalid-feedback">
+                La provincia es obligatoria
+            </div> 
+            <div *ngIf="poblaciones.length > 0">
+                <label for="nombrePoblacion">Nombre población: </label>
+                <select class="inputStyle" id="nombrePoblacion" formControlName="nombrePoblacion" name="nombrePoblacion">
+                    <option value="defecto">Seleccione una población</option>
+                    <option *ngFor="let poblacion of poblaciones" [value]="poblacion">{{poblacion}}</option>
+                </select>
+                <div *ngIf="form.get('nombrePoblacion')?.touched && form.get('nombrePoblacion')?.hasError('required') || form.get('nombrePoblacion')?.value === 'defecto'" class="invalid-feedback">
+                    La población es obligatoria
+                </div>
+            </div>
+            <label for="esRegadio">Regadío: </label>
+            <div class="radioContainer">
+                <label>
+                    <input type="radio" formControlName="esRegadio" [value]="true" required> Sí
+                </label>
+                <label>
+                    <input type="radio" formControlName="esRegadio" [value]="false" required> No
+                </label>
+            </div>
+            <input class="submitButton" type="submit"[value]="isEditMode ? 'Actualizar parcela' : 'Añadir parcela'" (click)="create()">
+        </form>
+    </div>
+</div>

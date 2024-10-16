@@ -1,0 +1,38 @@
+<app-header/>
+<div class="contentWrapper">
+  <div class="simpleContainer">
+    <h2>Datos del cultivo:</h2>
+    <form [formGroup]="form">
+      <label for="codSigpac">Código sigpac: </label>
+      <select class="inputStyle" id="codSigpac" formControlName="codSigpac" name="codSigpac" required>
+        <option value="defecto">Seleccione el código sigpac</option>
+        <option *ngFor="let codigo of codigos" [value]="codigo">{{codigo}}</option>
+      </select>
+      <div *ngIf="form.get('codSigpac')?.touched && form.get('codSigpac')?.hasError('required') || form.get('codSigpac')?.value === 'defecto'" class="invalid-feedback">
+        El código Sigpac es obligatorio
+      </div>      
+      <label for="year">Año: </label>
+      <input class="inputStyle" type="number" id="year" formControlName="year" name="year" placeholder="Año del cultivo" required>
+      <div *ngIf="form.get('year')?.touched && form.get('year')?.value === 0" class="invalid-feedback">
+        El año es obligatorio
+      </div>
+      <label for="descripcion">Descripción: </label>
+      <input class="inputStyle" type="text" id="descripcion" formControlName="descripcion" name="descripcion" placeholder="Descripción del cultivo" required>      
+      <div *ngIf="form.get('descripcion')?.touched && form.get('descripcion')?.hasError('required')" class="invalid-feedback">
+        La descripción es obligatoria
+      </div>
+      <label for="tipoCultivo">Tipo cultivo: </label>
+      <select class="inputStyle" id="tipoCultivo" formControlName="tipoCultivo" name="tipoCultivo">
+        <option value="defecto">Seleccione un tipo de cultivo</option>
+        <option *ngFor="let tipo of tipos" [value]="tipo">{{tipo}}</option>
+      </select>
+      <div *ngIf="form.get('tipoCultivo')?.touched && form.get('tipoCultivo')?.hasError('required') || form.get('tipoCultivo')?.value === 'defecto'" class="invalid-feedback">
+        El tipo del cultivo es obligatorio
+      </div>
+      <label for="variedad">Variedad: </label>
+      <input class="inputStyle" type="text" id="variedad" formControlName="variedad" name="variedad" placeholder="Variedad del cultivo">
+      <input type="file" id="datos" formControlName="datos" (change)="onFileChange($event)" accept=".xls, .xlsx"/><br>
+      <input class="submitButton" type="submit" [value]="isEditMode ? 'Actualizar cultivo' : 'Añadir cultivo'" (click)="create()">
+    </form>
+  </div>
+</div>

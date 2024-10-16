@@ -1,0 +1,69 @@
+<app-header/>
+<div class="comparator">  
+  <form [formGroup]="form" class="form-container">
+    <div class="form-group">
+      <label for="cultivo">Seleccione un tipo de cultivo: </label>
+      <select class="comparatorInput" id="tipoCultivo" formControlName="tipoCultivo" name="tipoCultivo" (change)="onTipoCultivoChange($event)">
+        <option value="defecto" selected>Seleccione un tipo de cultivo</option>
+        <option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo }}</option>
+      </select>
+    </div>
+  
+    <div *ngIf="selectedCultivo && selectedCultivo !== 'defecto'">
+      <div class="form-group">
+        <label for="provincia">Provincia con la que filtrar: </label>
+        <select class="comparatorInput" id="provincia" formControlName="provincia" name="provincia" (change)="obtenerPoblaciones()">
+          <option value="defecto" selected>Seleccione una provincia</option>
+          <option *ngFor="let provincia of provincias" [value]="provincia">{{ provincia }}</option>
+        </select>
+      </div>
+  
+      <div *ngIf="poblaciones.length > 0 || compareCultivo === true" class="form-group">
+        <label for="comparatorInput">Nombre población para filtrar: </label>
+        <select class="comparatorInput" id="nombrePoblacion" formControlName="nombrePoblacion" name="nombrePoblacion">
+          <option value="defecto" selected>Seleccione una población</option>
+          <option *ngFor="let poblacion of poblaciones" [value]="poblacion">{{ poblacion }}</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="yearInicio">Año inicio: </label>
+        <input type="number" class="filterYear" formControlName="yearInicio" id="yearInicio" name="yearInicio">
+      </div>
+  
+      <div class="form-group">
+        <label for="yearFin">Año fin: </label>
+        <input type="number" class="filterYear" formControlName="yearFin" id="yearFin" name="yearFin">
+      </div>
+  
+      <div class="form-group">
+        <label for="distancia">Distancia (km): </label>
+        <input type="number" class="filterDistancia" formControlName="distancia" id="distancia" name="distancia">
+      </div>
+    </div>
+    <div id="map" class="map-container"></div>
+    <div class="center-cross"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-sidebar-v2/js/leaflet-sidebar.min.js"></script>
+    <div class="buttonContainer">
+      <input type="submit" class="botonEnlaceComp" (click)="filtrar()" value="Aplicar filtros">
+      <input type="file" id="csvFile" (change)="onFileChange($event)" accept=".csv" style="display: none;"/>
+      <input *ngIf="!compareCultivo" type="submit" class="botonEnlaceComp" (click)="importarCsv()" value="Importar cultivos CSV">
+    </div>  
+    </form>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <div id="sidebar" class="leaflet-sidebar collapsed">
+      <div class="leaflet-sidebar-tabs">
+        <ul role="tablist">
+          <li><a href="#home" role="tab"><i class="fa fa-home"></i></a></li>
+        </ul>
+      </div>
+      <div class="leaflet-sidebar-content">
+        <div class="leaflet-sidebar-panel" id="home">
+          <button id="addMarkerBtn" type="button" class="btn addMarker">Añadir Marcador</button><br>
+          <button id="removeMarkerBtn" type="button" class="btn deleteLast">Eliminar marcador</button><br>
+          <button id="drawAreaBtn" type="button" class="btn drawArea">Pintar área</button><br>
+        </div>
+      </div>
+    </div>
+  </div>
