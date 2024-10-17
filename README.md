@@ -7,7 +7,10 @@ Este proyecto se trata de una aplicación completa que contiene:
 - Docker
 - Docker compose
 # Como ejecutar el contenedor
-Para poder hacer uso de la aplicación se debe modificar el fichero mvnw contenido en la carpeta "WebApp" que se corresponde a la parte del back end, convirtiendo el caracter de fin de línea de Windows al caracter de fin de línea de Ubuntu. Una vez realizado esto simplemente se podrá ejecutar la aplicación con el comando "docker-compose up --build".
+Para poder hacer uso de la aplicación se debe modificar el fichero mvnw contenido en la carpeta "WebApp" que se corresponde a la parte del back end, convirtiendo el caracter de fin de línea de Windows al caracter de fin de línea de Ubuntu. Una vez realizado esto simplemente se podrá ejecutar la aplicación con el comando 
+```shell
+docker-compose up --build
+```.
 
 Una vez que se hayan levantado todos los contenedores habrá que utilizar la copia de la base de datos. Para utilizar esta copia primero habrá que copiarla dentro del contenedor con el comando "docker cp "ruta/del/fichero/dump/descargado" db:/tfg_defecto.dump".
 
