@@ -71,7 +71,7 @@ export class ListaComparativaComponent implements OnInit {
       .subscribe((lista: any) => {
         this.cultivos = lista; 
       });
-      if(this.codSigpac && this.year){
+      if(this.codSigpac!='' && this.year!=null){
         this.cultivoService.getCultivo(this.codSigpac, this.year).subscribe((data: any) =>{
           this.cultivoComparativo = data; 
           this.compCultivo = true; 
