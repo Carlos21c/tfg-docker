@@ -7,7 +7,7 @@ Este proyecto se trata de una aplicación completa que contiene:
 - Docker
 - Docker compose
 # Como ejecutar el contenedor
-Para poder hacer uso de la aplicación se debe modificar el fichero mvnw contenido en la carpeta "WebApp" que se corresponde a la parte del back end, convirtiendo el caracter de fin de línea de Windows al caracter de fin de línea de Ubuntu. Una vez que se haya modificado el fichero se deberá crear el contenedor con el comando:
+Para poder hacer uso de la aplicación se debe modificar el fichero mvnw contenido en la carpeta "WebApp" que se corresponde a la parte del back end, convirtiendo el caracter de fin de línea de Windows al caracter de fin de línea de Ubuntu. Una vez que se haya modificado el fichero, además de asegurarnos que Docker está funcionando en nuestro sistema, se deberá crear el contenedor con el comando:
 ```shell
 docker-compose up --build
 ```
