@@ -44,7 +44,6 @@ export class CultivoComponent implements OnInit {
   tipos: string[] = [];
   datosOld : string; 
   workbook: any;
-  sheetName: string = '';
   csvData : any; 
 
   constructor() {}
@@ -131,7 +130,7 @@ export class CultivoComponent implements OnInit {
       return;
     }
 
-    const sheetName = this.sheetName || this.workbook.SheetNames[0];
+    const sheetName = this.workbook.SheetNames[0];
     const ws: XLSX.WorkSheet = this.workbook.Sheets[sheetName];
 
     if (!ws) {

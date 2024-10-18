@@ -41,7 +41,6 @@ export class ListaCultivosComponent implements OnInit{
   jsonContent: any;
   jsonData: any;
   workbook: any;
-  sheetName: string = '';
   csvData : any; 
 
   codSigpac: any;
@@ -221,7 +220,7 @@ export class ListaCultivosComponent implements OnInit{
       return;
     }
 
-    const sheetName = this.sheetName || this.workbook.SheetNames[0];
+    const sheetName = this.workbook.SheetNames[0];
     const ws: XLSX.WorkSheet = this.workbook.Sheets[sheetName];
 
     if (!ws) {
