@@ -32,8 +32,8 @@ export class ParcelaComponent implements OnInit{
   poblaciones: string[]=[];
 
   form = this.fb.group({    
-    codSigpac: ['', [Validators.required], Validators.pattern(this.codigoPatron)],
-    refCatastral: ['', [Validators.required],  Validators.minLength(20), Validators.maxLength(20), Validators.pattern('...')],
+    codSigpac: ['', [Validators.required, Validators.pattern(this.codigoPatron)]],
+    refCatastral: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20), Validators.pattern('...')]],
     dniPropietario: [''],
     extension: [0 , [Validators.required]],
     descripcion: ['', [Validators.required]],
