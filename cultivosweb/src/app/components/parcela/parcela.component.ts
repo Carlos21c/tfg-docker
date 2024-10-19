@@ -23,6 +23,7 @@ export class ParcelaComponent implements OnInit{
   private propietarioService = inject(PropietarioService);  
   private catastroService = inject(CatastroService);
   private dniPropietario = ''; 
+  private codigoPatron= /^ES-\d{2}-\d{2}-\d{4}-\d{2}-\d{4}$/;
 
   oldSigpac=""; 
 
@@ -31,8 +32,8 @@ export class ParcelaComponent implements OnInit{
   poblaciones: string[]=[];
 
   form = this.fb.group({    
-    codSigpac: ['', [Validators.required]],
-    refCatastral: ['', [Validators.required]],
+    codSigpac: ['', [Validators.required], Validators.pattern(this.codigoPatron)],
+    refCatastral: ['', [Validators.required],  Validators.minLength(20), Validators.maxLength(20), Validators.pattern('...')],
     dniPropietario: [''],
     extension: [0 , [Validators.required]],
     descripcion: ['', [Validators.required]],

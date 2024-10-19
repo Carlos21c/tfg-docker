@@ -8,10 +8,16 @@
             <div *ngIf="form.get('codSigpac')?.touched && form.get('codSigpac')?.hasError('required')"  class="invalid-feedback">
                 El código sigpac es obligatorio
             </div>
+            <div *ngIf="form.get('codSigpac')?.errors?.['pattern']" class="invalid-feedback">
+                El código sigpac debe tener un formato tal que ES-XX-XX-XXXX-XX-XXXX, siendo X un número de tantos dígitos como X.  
+            </div>
             <label for="refCatastral">Referencia catastral: </label>
             <input class="inputStyle" type="text" id="refCatastral" formControlName="refCatastral" name="refCatastral" placeholder="Referencia catastral de la parcela" required>
             <div *ngIf="form.get('refCatastral')?.touched && form.get('refCatastral')?.hasError('required')" class="invalid-feedback">
                 La referencia catastral es obligatoria
+            </div>
+            <div *ngIf="form.get('refCatastral')?.errors?.['minlength'] || form.get('refCatastral')?.errors?.['maxlength']" class="invalid-feedback">
+                La referencia catastral debe tener exactamente 20 caracteres.
             </div>
             <label for="extension">Extensión: </label>
             <input class="inputStyle" type="number" min="1" id="extension" formControlName="extension" name="extension" placeholder="Extensión de la parcela (en m^2)" required>
