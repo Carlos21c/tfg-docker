@@ -33,6 +33,10 @@ export class PropietarioService {
       })
     );
   }
+
+  public getByEmail(email: string): Observable<Propietario>{
+    return this.http.get<Propietario>(`${this.baseUrl}/email/`+email);
+  }
   
   logout(): void{
     localStorage.removeItem(this.tokenKey);

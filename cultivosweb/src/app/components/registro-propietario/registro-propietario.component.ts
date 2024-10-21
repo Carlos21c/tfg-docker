@@ -27,6 +27,7 @@ export class RegistroPropietarioComponent implements OnInit{
   private route = inject(ActivatedRoute);
   private propietarioService = inject(PropietarioService);
   private dniPropietario = '';
+  private oldEmail = '';
   private oldPass = '';
 
   private patronPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -63,6 +64,7 @@ export class RegistroPropietarioComponent implements OnInit{
   loadData(dniPropietario: any):void{
     this.propietarioService.getByDni(dniPropietario).subscribe(data => {
       this.dniPropietario = data.dniPropietario;
+      this.oldEmail = data.email;
       this.form.patchValue({
         dniPropietario: data.dniPropietario,
         nombre: data.nombre,
@@ -83,13 +85,49 @@ export class RegistroPropietarioComponent implements OnInit{
       }      
       const propietario = this.form.value;
       if(this.isEditMode){
-        this.propietarioService.update(this.dniPropietario, propietario).subscribe(()=>{
-          this.router.navigate(['perfil']);
-        })
+        const email = this.form.value.email;
+        const dni = this.form.value.dniPropietario;
+        if (email) {
+          this.propietarioService.getByEmail(email).subscribe(data => {
+            if (data != null && email != this.oldEmail) {
+              alert('Este email ya está registrado en la base de datos');
+            } else {  
+              if(dni){
+                this.propietarioService.getByDni(dni).subscribe(data => {
+                  if(data != null && dni != this.dniPropietario){
+                    alert('Un usuario ya está registrado con este DNI');
+                  }else{
+                    this.propietarioService.update(this.dniPropietario, propietario).subscribe(()=>{
+                      this.router.navigate(['perfil']);
+                    })
+                  }
+                });
+              }     
+            }
+          });
+        }
       }else{
-        this.propietarioService.create(propietario).subscribe(()=>{
-          this.router.navigate([''])
-        });
+        const email = this.form.value.email;
+        const dni = this.form.value.dniPropietario;
+        if (email) {
+          this.propietarioService.getByEmail(email).subscribe(data => {
+            if (data != null) {
+              alert('Este email ya está registrado en la base de datos');
+            } else {  
+              if(dni){
+                this.propietarioService.getByDni(dni).subscribe(data => {
+                  if(data != null){
+                    alert('Un usuario ya está registrado con este DNI');
+                  }else{
+                    this.propietarioService.create(propietario).subscribe(() => {
+                      this.router.navigate(['']);
+                    });
+                  }
+                });
+              }     
+            }
+          });
+        }
      }
     }else{
       console.log('Las contraseñas no coinciden');
