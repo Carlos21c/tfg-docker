@@ -33,7 +33,7 @@ export class ParcelaComponent implements OnInit{
 
   form = this.fb.group({    
     codSigpac: ['', [Validators.required, Validators.pattern(this.codigoPatron)]],
-    refCatastral: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20), Validators.pattern('...')]],
+    refCatastral: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20), Validators.pattern('^[0-9A-Za-z]{20}$')]],
     dniPropietario: [''],
     extension: [0 , [Validators.required]],
     descripcion: ['', [Validators.required]],
@@ -106,9 +106,17 @@ export class ParcelaComponent implements OnInit{
   } 
 
   create(){
-    if(this.form?.invalid){
-      return ;
-    }
+    if (this.form?.invalid) {
+      console.log("Formulario inválido", this.form.errors);
+      Object.keys(this.form.controls).forEach(key => {
+        const controlErrors = this.form.get(key)?.errors;
+        if (controlErrors) {
+          console.log(`Errores en el control ${key}:`, controlErrors);
+        }
+      });
+      return;
+    }  
+    console.log('Valores del formulario:', this.form.value);
     const nombreProvincia = this.form.value.provincia; 
     var idProvincia;
     this.parcelaService.obtenerProvincia(nombreProvincia).subscribe((provincia: any) => {

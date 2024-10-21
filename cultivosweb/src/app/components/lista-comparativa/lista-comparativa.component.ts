@@ -69,14 +69,16 @@ export class ListaComparativaComponent implements OnInit {
     }else{
       this.cultivoService.compararTipo(this.tipo, this.provincia, this.poblacion, this.yearInicio, this.yearFin, this.codSigpac, this.year, this.distancia, this.longitude, this.latitude)
       .subscribe((lista: any) => {
-        this.cultivos = lista; 
+        this.cultivos = lista;      
+        this.cultivoService.setListComparacion(this.cultivos); 
       });
       if(this.codSigpac!='' && this.year!=null){
         this.cultivoService.getCultivo(this.codSigpac, this.year).subscribe((data: any) =>{
           this.cultivoComparativo = data; 
           this.compCultivo = true; 
+          this.cultivoService.setCultivoComparativo(this.cultivoComparativo);
         })  
-      };
+      };     
   }
   }
 
@@ -93,8 +95,6 @@ export class ListaComparativaComponent implements OnInit {
   }
 
   comparar() {    
-    this.cultivoService.setListComparacion(this.cultivos);
-    this.cultivoService.setCultivoComparativo(this.cultivoComparativo);
     let tam = this.cultivos.length; 
     let i, j;   
     for (let index = 0; index < tam; index++) {
