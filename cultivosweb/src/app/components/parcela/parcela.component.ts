@@ -124,6 +124,27 @@ export class ParcelaComponent implements OnInit{
     this.parcelaService.obtenerProvincia(nombreProvincia).subscribe((provincia: any) => {
       idProvincia = provincia.codigoProvincia;
       const nombrePoblacion = this.form.value.nombrePoblacion;
+      const codigoSigpac = this.form.value.codSigpac;
+      const referenciaCatastral = this.form.value.refCatastral;
+      var exist = false;
+      if(codigoSigpac && referenciaCatastral){
+          if(this.isEditMode){ 
+            this.parcelaService.getParcela(codigoSigpac).subscribe(data => {
+              if(data != null && codigoSigpac != this.oldSigpac){
+                alert('Ya existe este código sigpac en la base de datos.');
+                return;
+              } 
+              
+            })        
+          }else{
+              this.parcelaService.getParcela(codigoSigpac).subscribe(data => {
+                if(data != null){
+                  alert('Ya existe este código sigpac en la base de datos.');
+                  return;
+                } 
+              })
+          }   
+      }  
       this.parcelaService.obtenerIdPoblacion(nombrePoblacion, idProvincia).subscribe((response : any) => {
           const poblacionId = response.codigoMunicipio;  
           this.catastroService.getCoordinates(this.form.value.refCatastral).subscribe(
@@ -166,51 +187,28 @@ export class ParcelaComponent implements OnInit{
                         codigoProvincia: response.codigoProvincia,
                         coordenadasString: geojsonString 
                       };
-
-                      const codigoSigpac = this.form.value.codSigpac;
-                      const referenciaCatastral = this.form.value.refCatastral;
                       if(parcela){
-                        if(this.isEditMode){      
-                          if(codigoSigpac){
-                            this.parcelaService.getParcela(codigoSigpac).subscribe(data => {
-                              if(data != null && codigoSigpac != this.oldSigpac){
-                                alert('Ya existe este código sigpac en la base de datos.');
-                              } else {
-                                if(referenciaCatastral){
-                                  this.parcelaService.getReferencia(referenciaCatastral).subscribe(data => {
-                                    if(data != null && referenciaCatastral != this.oldRef){
-                                      alert('Ya existe esta referencia catastral en la base de datos.');
-                                    }else{                                                                        
-                                      this.parcelaService.update(this.oldSigpac, parcela).subscribe(()=>{
-                                        this.router.navigate(['parcelas']);
-                                      })
-                                    }
-                                  })
-                                }
-                              } 
-                            })
-                          }
-                        }else{
-                          if(codigoSigpac){
-                            this.parcelaService.getParcela(codigoSigpac).subscribe(data => {
-                              if(data != null){
-                                alert('Ya existe este código sigpac en la base de datos.');
-                              } else{
-                                if(referenciaCatastral){
-                                  this.parcelaService.getReferencia(referenciaCatastral).subscribe(data => {
-                                    if(data != null){
-                                      alert('Ya existe esta referencia catastral en la base de datos.');
-                                    }else{
-                                      this.parcelaService.create(parcela).subscribe(()=>{
-                                        this.router.navigate(['parcelas']);
-                                      });
-                                    }
-                                  })
-                                }
-                              } 
-                            })
-                          }
-                        }
+                        if(this.isEditMode){ 
+                            this.parcelaService.getReferencia(referenciaCatastral).subscribe(data => {
+                              if(data != null && referenciaCatastral != this.oldRef){
+                                alert ('Ya existe esta referencia catastral en la base de datos');
+                              }else {
+                                this.parcelaService.update(this.oldSigpac, parcela).subscribe(()=>{
+                                  this.router.navigate(['parcelas']);
+                                });
+                              }
+                            }) 
+                        }else{   
+                          this.parcelaService.getReferencia(referenciaCatastral).subscribe(data => {
+                            if(data != null && referenciaCatastral != this.oldRef){
+                              alert ('Ya existe esta referencia catastral en la base de datos');
+                            }else {      
+                              this.parcelaService.create(parcela).subscribe(()=>{
+                                this.router.navigate(['parcelas']);
+                              });
+                            }
+                          })    
+                        }         
                       } else {
                           console.error("El objeto parcela es null");
                       }
