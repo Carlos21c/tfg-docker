@@ -40,4 +40,8 @@ public class ParcelaService {
     public ArrayList<Parcela> getPoblacionParcelas(int codigoPoblacion){
         return this.parcelaRepository.findByCodigoPoblacion(codigoPoblacion);
     }
+
+    public Parcela getByRefCatastral(String refCatastral){
+        return this.parcelaRepository.findByRefCatastral(refCatastral);
+    }
 }

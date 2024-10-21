@@ -27,6 +27,9 @@ export class ParcelaService {
   getParcela(codSigpac: any): Observable<Parcela>{
     return this.http.get<Parcela>(`${this.baseUrl}/cod/`+codSigpac);
   }
+  getReferencia(refCatastral: any): Observable<Parcela>{
+    return this.http.get<Parcela>(`${this.baseUrl}/ref/`+refCatastral);
+  }
   delete(codSigpac: any):Observable<Boolean>{
     return this.http.delete<Boolean>(`${this.baseUrl}/delete/`+codSigpac);
   }

@@ -46,6 +46,8 @@ public interface ParcelaRepository  extends CrudRepository<Parcela, Integer>    
 
     Parcela findByCodSigpac(String codSigpac);
 
+    Parcela findByRefCatastral(String refCatastral);
+
     ArrayList<Parcela> findByDniPropietario(String dniPropietario);
 
     ArrayList<Parcela> findByCodigoPoblacion(int codigoPoblacion);

@@ -83,10 +83,10 @@ export class RegistroPropietarioComponent implements OnInit{
         console.log('Algún campo de nombre, email, dni o password está vacío'); 
         return ;
       }      
-      const propietario = this.form.value;
+      const propietario = this.form.value;      
+      const email = this.form.value.email;
+      const dni = this.form.value.dniPropietario;
       if(this.isEditMode){
-        const email = this.form.value.email;
-        const dni = this.form.value.dniPropietario;
         if (email) {
           this.propietarioService.getByEmail(email).subscribe(data => {
             if (data != null && email != this.oldEmail) {
@@ -107,8 +107,6 @@ export class RegistroPropietarioComponent implements OnInit{
           });
         }
       }else{
-        const email = this.form.value.email;
-        const dni = this.form.value.dniPropietario;
         if (email) {
           this.propietarioService.getByEmail(email).subscribe(data => {
             if (data != null) {

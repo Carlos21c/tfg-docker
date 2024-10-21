@@ -33,6 +33,10 @@ public class ParcelaController {
     public Parcela obtenerPorCodSigpac(@PathVariable("codSigpac") String codSigpac){
         return this.parcelaService.getByCodSigpac(codSigpac);
     }
+    @GetMapping(path = "/ref/{referencia}")
+    public Parcela obtenerPorrefCatastral(@PathVariable("referencia") String refCatastral){
+        return this.parcelaService.getByRefCatastral(refCatastral);
+    }
     @GetMapping(path = "/usuario/{dni}")
     public ArrayList<Parcela> obtenerParcelasUsuario(@PathVariable("dni") String dni){
         return this.parcelaService.getUserParcelas(dni);

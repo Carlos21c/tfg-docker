@@ -98,16 +98,34 @@ export class CultivoComponent implements OnInit {
     } else {
       cultivo.datos = this.jsonContent;
     }
+    const codSigpac = this.form.value.codSigpac;
+    const yearCultivo = this.form.value.year;
     if(this.isEditMode){ 
-      this.cultivoService.update(this.oldSigpac, this.oldYear, cultivo).subscribe((response) => {
-        console.log('Cultivo actualizado: ', response);
-        this.router.navigate(['cultivos']);
-      })
+      if(codSigpac && yearCultivo){
+        this.cultivoService.getCultivo(codSigpac, yearCultivo).subscribe(data => {
+          if(data != null && codSigpac != this.oldSigpac && yearCultivo != this.oldYear){
+            alert('Ya existe un cultivo con ese código sigpac en el mismo año.');
+          }else{
+              this.cultivoService.update(this.oldSigpac, this.oldYear, cultivo).subscribe((response) => {
+              console.log('Cultivo actualizado: ', response);
+              this.router.navigate(['cultivos']);
+            })
+          }
+        })
+      } 
     }else{
-      this.cultivoService.create(cultivo).subscribe((response) => {
-        console.log('Cultivo creado: ', response);
-        this.router.navigate(['cultivos']);
-      });      
+      if(codSigpac && yearCultivo){
+        this.cultivoService.getCultivo(codSigpac, yearCultivo).subscribe(data => {
+          if(data != null){
+            alert('Ya existe un cultivo con ese código sigpac en el mismo año.');
+          }else{
+            this.cultivoService.create(cultivo).subscribe((response) => {
+              console.log('Cultivo creado: ', response);
+              this.router.navigate(['cultivos']);
+            });  
+          }
+        })
+      }     
     }
   }
 

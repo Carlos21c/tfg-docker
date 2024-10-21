@@ -26,6 +26,7 @@ export class ParcelaComponent implements OnInit{
   private codigoPatron= /^ES-\d{2}-\d{2}-\d{4}-\d{2}-\d{4}$/;
 
   oldSigpac=""; 
+  oldRef=""; 
 
   provincia : Provincia;
   provincias: string[]=[];
@@ -87,6 +88,7 @@ export class ParcelaComponent implements OnInit{
   loadParcela(codSigpac: any): void{
     this.parcelaService.getParcela(codSigpac).subscribe(data => {
       this.oldSigpac = data.codSigpac;
+      this.oldRef = data.refCatastral;
       this.parcelaService.obtenerProvinciabyCod(data.codigoProvincia).subscribe((responseProv : any) => {
         this.parcelaService.obtenerNombrePoblacion(data.codigoPoblacion, data.codigoProvincia).subscribe((response : any) => {
           this.form.patchValue({
@@ -165,15 +167,49 @@ export class ParcelaComponent implements OnInit{
                         coordenadasString: geojsonString 
                       };
 
+                      const codigoSigpac = this.form.value.codSigpac;
+                      const referenciaCatastral = this.form.value.refCatastral;
                       if(parcela){
-                        if(this.isEditMode){                                       
-                          this.parcelaService.update(this.oldSigpac, parcela).subscribe(()=>{
-                            this.router.navigate(['parcelas']);
-                          })
+                        if(this.isEditMode){      
+                          if(codigoSigpac){
+                            this.parcelaService.getParcela(codigoSigpac).subscribe(data => {
+                              if(data != null && codigoSigpac != this.oldSigpac){
+                                alert('Ya existe este código sigpac en la base de datos.');
+                              } else {
+                                if(referenciaCatastral){
+                                  this.parcelaService.getReferencia(referenciaCatastral).subscribe(data => {
+                                    if(data != null && referenciaCatastral != this.oldRef){
+                                      alert('Ya existe esta referencia catastral en la base de datos.');
+                                    }else{                                                                        
+                                      this.parcelaService.update(this.oldSigpac, parcela).subscribe(()=>{
+                                        this.router.navigate(['parcelas']);
+                                      })
+                                    }
+                                  })
+                                }
+                              } 
+                            })
+                          }
                         }else{
-                          this.parcelaService.create(parcela).subscribe(()=>{
-                            this.router.navigate(['parcelas']);
-                          });
+                          if(codigoSigpac){
+                            this.parcelaService.getParcela(codigoSigpac).subscribe(data => {
+                              if(data != null){
+                                alert('Ya existe este código sigpac en la base de datos.');
+                              } else{
+                                if(referenciaCatastral){
+                                  this.parcelaService.getReferencia(referenciaCatastral).subscribe(data => {
+                                    if(data != null){
+                                      alert('Ya existe esta referencia catastral en la base de datos.');
+                                    }else{
+                                      this.parcelaService.create(parcela).subscribe(()=>{
+                                        this.router.navigate(['parcelas']);
+                                      });
+                                    }
+                                  })
+                                }
+                              } 
+                            })
+                          }
                         }
                       } else {
                           console.error("El objeto parcela es null");
