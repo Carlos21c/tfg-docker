@@ -8,11 +8,11 @@
         <button class="menuToggle" (click)="toggleMenu()">☰</button>
 
         <nav class="lateralMenu" [ngClass]="{'show': menuVisible}">
-            <input class="linkStyle" type="submit" (click)="parcelas()" value="Mis parcelas"/>
-            <input class="linkStyle" type="submit" (click)="cultivos()" value="Mis cultivos"/>
-            <input class="linkStyle" type="submit" (click)="comparador()" value="Comparador CVC"/>
-            <input class="linkStyle" type="submit" (click)="perfil()" value="Mi perfil"/>
-            <input class="linkStyle" type="submit" (click)="logout()" value="Cerrar sesión"/>    
+            <a class="linkStyle" href="#" (click)="parcelas()" tabindex="0">Mis parcelas</a>
+            <a class="linkStyle" href="#" (click)="cultivos()" tabindex="0">Mis cultivos</a>
+            <a class="linkStyle" href="#" (click)="comparador()" tabindex="0">Comparador CVC</a>
+            <a class="linkStyle" href="#" (click)="perfil()" tabindex="0">Mi perfil</a>
+            <a class="linkStyle" href="#" (click)="logout()" tabindex="0">Cerrar sesión</a>   
         </nav>
     </div>
 </header>
