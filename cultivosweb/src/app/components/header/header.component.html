@@ -8,11 +8,11 @@
         <button class="menuToggle" (click)="toggleMenu()">☰</button>
 
         <nav class="lateralMenu" [ngClass]="{'show': menuVisible}">
-            <a class="linkStyle" href="#" (click)="parcelas()" tabindex="0">Mis parcelas</a>
-            <a class="linkStyle" href="#" (click)="cultivos()" tabindex="0">Mis cultivos</a>
-            <a class="linkStyle" href="#" (click)="comparador()" tabindex="0">Comparador CVC</a>
-            <a class="linkStyle" href="#" (click)="perfil()" tabindex="0">Mi perfil</a>
-            <a class="linkStyle" href="#" (click)="logout()" tabindex="0">Cerrar sesión</a>   
+            <a class="linkStyle" (click)="parcelas()" tabindex="0">Mis parcelas</a>
+            <a class="linkStyle" (click)="cultivos()" tabindex="0">Mis cultivos</a>
+            <a class="linkStyle" (click)="comparador()" tabindex="0">Comparador CVC</a>
+            <a class="linkStyle" (click)="perfil()" tabindex="0">Mi perfil</a>
+            <a class="linkStyle" (click)="logout()" tabindex="0">Cerrar sesión</a>   
         </nav>
     </div>
 </header>
