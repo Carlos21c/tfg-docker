@@ -7,8 +7,8 @@
             <input class="filterYearCultivo" type="number" formControlName="yearCultivo" min="2000" type="number" id="yearCultivo" name="yearCultivo">
         </form>    
         <div class="buttonContainer">
-            <a class="botonEnlace" (click)="getRango()" >Buscar cultivos recientes</a>
-            <a class="botonEnlace" (click)="getByYear()">Buscar cultivos año concreto</a>   
+            <input class="botonEnlace" type="submit" (click)="getRango()" value="Buscar cultivos recientes"/>
+            <input class="botonEnlace" type="submit" (click)="getByYear()" value="Buscar cultivos año concreto"/>   
         </div>    
         <form [formGroup]="tipoForm">
             <label for="tipoCultivo" class="labelFilter">Tipo de cultivo:</label>
@@ -19,7 +19,7 @@
         </form>
     </div>
     <div class="buttonContainer">    
-        <a class="botonEnlace" (click)="ngOnInit()">Mostrar todos mis cultivos</a>
+        <input class="botonEnlace" type="submit" (click)="ngOnInit()" value="Mostrar todos mis cultivos"/>
     </div>    
     <table class="styleTable">
         <thead>
@@ -44,8 +44,8 @@
                     <td>@if (cultivo.datos != null) {<img src="assets/images/check.png" (click)="mostrarDatos(cultivo.codSigpac, cultivo.year)" alt="Check" class="imgTabla"> } @else {<img src="assets/images/noData.png" alt="noData" class="imgTabla">}</td>
                     <td>
                     <div class="buttonContainer">
-                        <a class="botonEnlace" (click)="editCultivo(cultivo.codSigpac, cultivo.year)">Editar</a>
-                        <a class="botonEnlace" (click)="deleteCultivo(cultivo.codSigpac, cultivo.year)">Eliminar</a>
+                        <input class="botonEnlace" type="submit" (click)="editCultivo(cultivo.codSigpac, cultivo.year)" value="Editar"/>
+                        <input class="botonEnlace" type="submit" (click)="deleteCultivo(cultivo.codSigpac, cultivo.year)" value="Eliminar"/>
                         <a class="botonEnlace" (click)="triggerFileInput(cultivo.codSigpac, cultivo.year)">@if(cultivo.datos != null){Editar CVC} @else {Añadir CVC}</a>
                         <input type="file" id="fileInput" (change)="onFileChange($event)" accept=".xls, .xlsx" style="display: none;"/>
 
@@ -62,5 +62,5 @@
         <button (click)="nextPage()" [disabled]="page >= totalPages">Siguiente</button>
     </div>
 
-    <a class="botonEnlace" (click)="addCultivo()">Añadir cultivo</a>
+    <input class="botonEnlace" type="submit" (click)="addCultivo()" value="Añadir cultivo"/>
 </div>

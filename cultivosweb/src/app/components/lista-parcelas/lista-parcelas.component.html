@@ -31,5 +31,5 @@
         <span>Página {{page}} de {{totalPages}}</span>
         <button (click)="nextPage()" [disabled]="page >= totalPages">Siguiente</button>
     </div>
-    <a class="botonEnlace" (click)="addParcela()">Añadir parcela</a>
+    <input class="botonEnlace" type="submit" (click)="addParcela()" value="Añadir parcela"/>
 </div>
