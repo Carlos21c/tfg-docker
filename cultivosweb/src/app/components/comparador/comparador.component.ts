@@ -98,16 +98,6 @@ export class ComparadorComponent implements OnInit {
       version: "1.3.0"
     });
 
-    var lineaDeclaracion = L.tileLayer.wms("https://wms.mapa.gob.es/sigpac/wms", {
-      layers: "AU.Sigpac:linea_declaracion",
-      format: "image/png",
-      transparent: true,
-      crossOrigin: true,
-      noWrap: true,
-      crs: L.CRS.EPSG3857,
-      version: "1.3.0"
-    });
-
     // Precargar la basicLayer cargada
     this.map = L.map('map', {
       layers: [basicLayer],
@@ -122,8 +112,7 @@ export class ComparadorComponent implements OnInit {
       "Mapa ortogonal": pnoa
     };
     var overlayMaps = {
-      "Parcelas": parcelaLayer,
-      "Línea Declaración": lineaDeclaracion 
+      "Parcelas": parcelaLayer
     };
     var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(this.map);
     const zoomControl = L.control.zoom({
