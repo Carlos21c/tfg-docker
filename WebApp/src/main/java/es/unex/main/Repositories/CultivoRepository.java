@@ -45,8 +45,11 @@ public interface CultivoRepository extends CrudRepository<Cultivo, Integer> {
     @Query("SELECT c FROM Cultivo c " +
             "WHERE (:codSigpac IS NULL AND :year IS NULL OR NOT (c.codSigpac = :codSigpac AND c.year = :year)) " +
             "AND (:tipo IS NULL OR c.tipoCultivo = :tipo) " +
-            "AND (:provincia IS NULL OR c.codSigpac IN (SELECT p.codSigpac FROM Parcela p WHERE p.codigoProvincia = :provincia)) " +
-            "AND (:poblacion IS NULL OR c.codSigpac IN (SELECT p.codSigpac FROM Parcela p WHERE p.codigoPoblacion = :poblacion AND p.codigoProvincia = :provincia)) " +
+            "AND (:provincia IS NULL AND :poblacion IS NULL OR " +
+            "     (:provincia IS NOT NULL AND :poblacion IS NULL AND c.codSigpac IN (" +
+            "      SELECT p.codSigpac FROM Parcela p WHERE p.codigoProvincia = :provincia" +
+            "     )) OR (:provincia IS NOT NULL AND :poblacion IS NOT NULL AND c.codSigpac IN (" +
+            "      SELECT p.codSigpac FROM Parcela p WHERE p.codigoProvincia = :provincia AND p.codigoPoblacion = :poblacion))) " +
             "AND (:yearS IS NULL OR c.year >= :yearS) " +
             "AND (:yearE IS NULL OR c.year <= :yearE) " +
             "AND c.datos IS NOT NULL " +

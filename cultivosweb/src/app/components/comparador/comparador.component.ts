@@ -10,7 +10,7 @@ import { ParcelaService } from '../../services/parcela.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Provincia } from '../../model/provincia';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, tap } from 'rxjs';
+import { forkJoin, tap, switchMap } from 'rxjs';
 import { FormstateService } from '../../services/formstate.service';
 import { CatastroService } from '../../services/catastro.service';
 
@@ -285,30 +285,36 @@ export class ComparadorComponent implements OnInit {
           this.campos.tipo = tipo;   
           const observables = [];
     
-          if (this.form.value.provincia !='' && this.form.value.provincia != 'defecto') {
+          if (this.form.value.provincia != '' && this.form.value.provincia != 'defecto') {
             const nombreProvincia = this.form.value.provincia;
+          
             const provinciaObservable = this.parcelaService.obtenerProvincia(nombreProvincia).pipe(
               tap((data: any) => {
                 this.campos.provincia = data.codigoProvincia;
               })
             );
+          
             observables.push(provinciaObservable);
-            
-            if (this.form.value.nombrePoblacion !='' && this.form.value.nombrePoblacion != 'defecto') {
+          
+            if (this.form.value.nombrePoblacion != '' && this.form.value.nombrePoblacion != 'defecto') {
               const nombrePoblacion = this.form.value.nombrePoblacion;
-              const auxObservable = this.parcelaService.obtenerProvincia(nombreProvincia).pipe(
-                tap((data: any) => {
-                  const poblacionObservable = this.parcelaService.obtenerIdPoblacion(nombrePoblacion, data.codigoProvincia).pipe(
-                    tap((data: any) => {
-                      this.campos.poblacion = data.codigoMunicipio;
+          
+              const poblacionObservable = this.parcelaService.obtenerProvincia(nombreProvincia).pipe(
+                switchMap((provinciaData: any) => {
+                  this.campos.provincia = provinciaData.codigoProvincia;
+          
+                  return this.parcelaService.obtenerIdPoblacion(nombrePoblacion, provinciaData.codigoProvincia).pipe(
+                    tap((poblacionData: any) => {
+                      this.campos.poblacion = poblacionData.codigoMunicipio;
                     })
                   );
-                  observables.push(poblacionObservable);
                 })
               );
-
+          
+              observables.push(poblacionObservable);
             }
           }
+          
     
           if (this.form.value.yearInicio != 0) {
             this.campos.yearInicio = this.form.value.yearInicio;
@@ -330,7 +336,7 @@ export class ComparadorComponent implements OnInit {
             this.campos.codSigpac = this.codSigpac;
             this.campos.year = this.year;
           }
-          
+          console.log(this.campos);
           if (observables.length > 0) {
             forkJoin(observables).subscribe(() => {
               this.navigateWithCampos();
@@ -395,3 +401,4 @@ export class ComparadorComponent implements OnInit {
     }
   }
 }
+
